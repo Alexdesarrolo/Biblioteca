@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+    <header th:replace="~{plantillas/principal :: header}"></header>
+
+    <div class="container mt-5 ">
+        <div class="card bg-light">
+            <div class="card-header bg-dark">
+                <h2 class="text-center text-light" th:text="${titulo}"></h2>
+            </div>
+            <div class="card-body bg-light ">
+
+                <form th:action="@{/libreria/libroagregar}" th:object="${libro}" method="post"
+                    enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label><i class="fa-solid fa-book fa-sm"></i> Titulo:</label>
+                        <input type="text" th:field="*{titulo}" class="form-control form-control-sm"
+                            placeholder="Digite el titulo de libro" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('titulo')}"
+                            th:errors="*{titulo}"></small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><i class="fa-solid fa-book-bookmark fa-sm"></i> Edición:</label>
+                        <input type="text" th:field="*{edicion}" class="form-control form-control-sm"
+                            placeholder="Digite la edicion del libro" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('edicion')}"
+                            th:errors="*{edicion}"></small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><i class="fa-solid fa-calendar-days fa-sm"></i> Año:</label>
+                        <input type="number" min="1900" max="2023" th:field="*{year}" class="form-control form-control-sm"
+                            placeholder="Digite el año" required/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('year')}"
+                            th:errors="*{year}"></small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><i class="fa-solid fa-barcode fa-sm"></i> ISBN:</label>
+                        <input type="text" th:field="*{isbn}" class="form-control form-control-sm"
+                            placeholder="Digita el código ISBN del libro" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('isbn')}"
+                            th:errors="*{isbn}"></small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="caratula"><i class="fa-solid fa-file fa-sm"></i> Caratula:</label> 
+                        <input type="file" name="file" accept="image/*, .jpg, .png" multiple required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><i class="fa-solid fa-newspaper fa-sm"></i> Editorial: </label>
+                        <select th:field="*{editorial}" class="form-control" required>
+                            <option th:each="e : ${listaeditoriales}" th:value="${e.id}" th:text="${e.nombreCompleto}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label><i class="fa-solid fa-signature fa-sm"></i> Autor: </label>
+                        <select th:field="*{autores}" class="form-control" required>
+                            <option th:each="a : ${listaautores}" th:value="${a.idAutor}" th:text="${a.nombre + ' ' + a.apellido}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <input class="btn btn-sm btn-success" type="submit" th:value="${accion} + ' libro'">
+
+                        <a class="btn btn-sm btn-primary" th:href="@{/libreria/libroslistar}">Regresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{plantillas/principal :: footer}"></footer>
+</body>
+
+</html>

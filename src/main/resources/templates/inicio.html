@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{plantillas/principal :: head}">
+</head>
+<body>
+	<header th:replace="~{plantillas/principal :: header}"></header>
+	<div class="container mt-5">
+		<div class="tp-banner">
+            <div class="img-banner">
+                <img th:src="@{/img/fondo.png}" alt="INICIO"/>
+                <div class="centrado">
+                    <h1>Bienvenidos a</h1>
+                    <h2>Libreria</h2>
+                </div>
+            </div>
+        </div>
+	</div>
+	<footer th:replace="~{plantillas/principal :: footer}"></footer>		
+</body>
+</html>

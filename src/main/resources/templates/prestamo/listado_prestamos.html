@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+    <header th:replace="~{plantillas/principal :: header}"></header>
+
+    <div class="container mt-5">
+
+        <div class="card bg-light">
+            <div class="card-header bg-dark">
+                <h3 class="text-light" th:text="${titulo}"></h3>
+            </div>
+            <div class="card-body">
+                
+                <table class="table table-striped table-sm table-bordered">
+                    <thead class="text-center">
+                        <tr>
+                            <th sec:authorize="hasRole('ROLE_USER')">Id.</th>
+                            <th>Titulo</th>
+                            <th>Usuario</th>
+                            <th>Fecha Alquilado</th>
+                            <th>Fecha de Devolución</th>
+                            <th>Días restantes</th>
+                            <th  sec:authorize="hasRole('ROLE_ADMIN')"  colspan="3" style="text-align: center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tr th:each="lib : ${prestamos}" class="text-center">
+                        
+                        <td th:text="${lib.idPrestamo}"></td>
+                        <td th:text="${lib.ejemplar.libro.titulo}"></td>
+                        <td th:text="${lib.usuario.nombre}"></td>
+                        <td th:text="${lib.fechaAlquiler}"></td>
+                        <td th:text="${lib.fechaDevolucion}"></td>
+                        <td th:text="${lib.diferenciaFechas}"></td>
+                        
+                        <td class="text-center">
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/libreria/prestamomodificar/} + ${lib.idPrestamo}"
+                            class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i> Modificar</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/libreria/prestamoeliminar/} + ${lib.idPrestamo}"
+                            onclick="return confirm('Está seguro de elminar el libro ?')"
+                            class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                </table>
+                <nav th:replace="~{plantillas/paginador :: page}"></nav>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{plantillas/principal :: footer}"></footer>
+
+</body>
+
+</html>

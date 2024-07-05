@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+    <header th:replace="~{plantillas/principal :: header}"></header>
+
+    <div class="container mt-5">
+
+        <div class="card bg-light">
+            <div class="card-header bg-dark">
+                <h3 class="text-light " th:text="${titulo}"></h3>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title text-right"><a th:href="@{/libreria/prestamonuevo/} + ${libro.idLibro}"
+                        class="btn btn-success"><i class="fa-solid fa-handshake"></i> Prestamo</a></h4>
+
+                <div class="text-center">
+                    <img class="img-thumbnail rounded" th:src="@{'/uploads/' + ${libro.caratula}}"
+                        th:alt="${libro.caratula}" style="max-width:25%;">
+                </div>
+
+                <div class="form-control">
+                    <label class="form-label">Titulo: <b th:text="${libro.titulo}"></b></label>
+                </div>
+
+                <div class="form-control">
+                    <label class="form-label">Edición: <b th:text="${libro.edicion}"></b></label>
+                </div>
+
+                <div class="form-control">
+                    <label class="form-label">Año: <b th:text="${libro.year}"></b></label>
+                </div>
+
+                <div class="form-control">
+                    <label class="form-label">ISBN: <b th:text="${libro.isbn}"></b></label>
+                </div>
+
+                <div class="form-control">
+                    <label class="form-label">Editorial: <b th:text="${libro.editorial.nombreCompleto}"></b></label>
+                </div>
+
+                <div class="form-control">
+                    <label class="form-label">Autor: <b th:each="autor : ${libro.autores}" th:text="${autor.nombre + ' ' + autor.apellido}"></b></label>
+                </div>
+
+
+                <div class="text-right mt-3">
+                    <a href="#" onclick="history.back()" class="btn btn-sm btn-secondary">&laquo; Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{plantillas/principal :: footer}"></footer>
+</body>
+
+</html>

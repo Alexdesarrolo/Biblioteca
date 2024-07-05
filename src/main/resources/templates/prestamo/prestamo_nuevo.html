@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{plantillas/principal :: head}"></head>
+<body>
+	<header th:replace="~{plantillas/principal :: header}"></header>
+	<div class="container mt-5">
+		<div class="card bg-light">
+			<div class="card-header bg-dark">
+				<h3 class="text-light" th:text="${titulo}"></h3>
+			</div>
+			<div class="card-body">
+				<h4 class="card-title text-right">
+					<a class="btn btn-light" th:href="@{/libreria/usuarioconsultar/} + ${prestamo.usuario.id}">&laquo; Regresar</a>
+				</h4>
+
+				<form method="post" th:object="${prestamo}" th:action="@{/libreria/agregarprestamo}">
+				
+					<div class="mb-4 row">
+						<label for"" class="col-sm-2 col-form-label"><i class="fa-solid fa-user fa-sm"></i> Usuario</label>
+						<div class="col-sm-6">
+							<input type="text" th:value="${prestamo.usuario.nombre}"
+							class="form-control"  disabled="disabled"/>
+						</div>
+					</div>
+
+					<div class="mb-4 row">
+						<label class="col-sm-2 col-form-label"><i class="fa-solid fa-heart fa-sm"></i> Estado de Libro</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{estado}" class="form-control" th:errorclass="'form-control is-invalid'"/>
+							<div class="invalid-feedback" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></div>
+						</div>
+					</div>
+					
+					<div class="mb-4 row">
+						<label class="col-sm-2 col-form-label"><i class="fa-brands fa-searchengin fa-sm"></i> Observación</label>
+						<div class="col-sm-6">
+							<textarea class="form-control" th:field="*{observacion}"></textarea>
+						</div>
+					</div>
+					<div class="mb-4 row">
+                        <label  class="col-sm-2 col-form-label"><i class="fa-solid fa-calendar-days fa-sm"></i> Fecha Devolución:</label>
+                        <div class="col-sm-6">
+						<input  type="date" th:field="*{fechaDevolucion}" class="form-control form-control-sm"
+                            placeholder="dd/mm/aaaa" />
+						</div>
+                    </div>
+					
+					<div class="mb-4 row">
+						<label class="col-sm-2 col-form-label" for="buscar_libro"><i class="fa-solid fa-book fa-sm"></i> Buscar libro</label>
+						<div class="col-sm-6">
+							<input type="text" th:id="buscar_libro" th:name="buscar_libro"
+								class="form-control" />
+						</div>
+					</div>
+
+					<table th:replace="~{plantillas/plantilla_detalles :: detalle_prestamo}"></table>
+					
+					<table id="cargar_detalle" class="table table-striped table-sm table-bordered">
+						<thead>
+							<tr>
+								<th>Titulo</th>
+								<th>Autor</th>
+								<th>Cantidad de Ejemplares</th>
+								<th>Acción</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					
+					<div class="mb-4 row mt-4">
+						<div class="col-sm-6">
+							<input type="submit" th:value="${btn_accion}" class="btn btn-secondary"/>
+						</div>
+					</div>
+			
+				</form>				
+
+			</div>
+		</div>	
+	</div>
+	<footer th:replace="~{plantillas/principal :: footer}"></footer>
+	<script th:replace="~{plantillas/autocompleta_libro :: script}"></script>
+</body>
+</html>

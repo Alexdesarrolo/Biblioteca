@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<script th:fragment="script">
+$(document).ready(function(){
+  $("#buscar_libro").autocomplete({
+    source: function(request, response){
+      $.ajax({
+        url: "/libreria/cargarlibros/" + request.term,
+        dataType: "json",
+        data: {term: request.term},
+        type: "GET",
+        success: function(data){
+        	console.log(data)
+          response($.map(data, function(item){
+            return {
+              value: item.id,
+              label: item.titulo,
+              autor: item.nombreAutor,
+              cantidad: item.numeroEjemplar
+            };
+          }));
+        },
+      });
+    },
+    select: function(event, ui){
+      $("#buscar_libro").val(ui.item.label);
+      
+      if(utils.hasLibro(ui.item.value)){
+        return false;
+      }
+
+      let linea = $("#plantilla_detalle").html();
+      linea = linea.replace(/{ID}/g, ui.item.value);
+      linea = linea.replace(/{TITULO}/g, ui.item.label);
+      linea = linea.replace(/{AUTOR}/g, ui.item.autor);
+      linea = linea.replace(/{CANTIDAD_DISPONIBLE}/g, ui.item.cantidad);
+      console.log("------" + ui.item.cantidad)
+      $("#cargar_detalle tbody").append(linea);
+      
+      return false;
+    },
+  });
+
+  $("form").submit(function(){
+    $("#plantilla_detalle").remove();
+    return 
+  });
+});
+
+let utils = {
+  hasLibro: function(id){
+    let res = false;
+    $('input[name="detalle_id[]"]').each(function(){
+      if(parseInt(id) == parseInt($(this).val())){
+        res = true;
+      }
+    });
+    return res;
+  },
+  eliminarDetalle: function(id){
+    $("#fila_" + id).remove();
+  }
+};
+</script>
+</body>
+</html>
